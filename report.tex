@@ -1,0 +1,349 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%ADDITIONAL PACKAGES
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables for horizontal lines
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{tabto}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{Udacity, ud257 A/B Testing} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Final Project \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+%\author{Christopher B. Winkelman} % Your name
+
+%%%%\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Experiment Design}
+
+"Udacity courses currently have two options on the home page: "start free trial", and "access course materials". If the student clicks "start free trial", they will be asked to enter their credit card information, and then they will be enrolled in a free trial for the paid version of the course. After 14 days, they will automatically be charged unless they cancel first. If the student clicks "access course materials", they will be able to view the videos and take the quizzes for free, but they will not receive coaching support or a verified certificate, and they will not submit their final project for feedback.
+\newline \newline
+In the experiment, Udacity tested a change where if the student clicked "start free trial", they were asked how much time they had available to devote to the course. If the student indicated 5 or more hours per week, they would be taken through the checkout process as usual. If they indicated fewer than 5 hours per week, a message would appear indicating that Udacity courses usually require a greater time commitment for successful completion, and suggesting that the student might like to access the course materials for free. At this point, the student would have the option to continue enrolling in the free trial, or access the course materials for free instead.
+\newline \newline
+The hypothesis was that this might set clearer expectations for students upfront, thus reducing the number of frustrated students who left the free trial because they didn't have enough time—without significantly reducing the number of students to continue past the free trial and eventually complete the course. If this hypothesis held true, Udacity could improve the overall student experience and improve coaches' capacity to support students who are likely to complete the course.
+The unit of diversion is a cookie, although if the student enrolls in the free trial, they are tracked by user-id from that point forward. The same user-id cannot enroll in the free trial twice. For users that do not enroll, their user-id is not tracked in the experiment, even if they were signed in when they visited the course overview page."
+
+%------------------------------------------------
+
+\subsection{Metric Choice}
+
+\begin{itemize}
+	\item Number of cookies: That is, number of unique cookies to view the course overview page. (dmin=3000)
+	\item Number of user-ids: That is, number of users who enroll in the free trial. (dmin=50)
+	\item Number of clicks: That is, number of unique cookies to click the "Start free trial" button (which happens before the free trial screener is trigger). (dmin=240)
+	\item Click-through-probability: That is, number of unique cookies to click the "Start free trial" button divided by number of unique cookies to view the course overview page. (dmin=0.01)
+	\item Gross conversion: That is, number of user-ids to complete checkout and enroll in the free trial divided by number of unique cookies to click the "Start free trial" button. (dmin= 0.01)
+	\item Retention: That is, number of user-ids to remain enrolled past the 14-day boundary (and thus make at least one payment) divided by number of user-ids to complete checkout. (dmin=0.01)
+	\item Net conversion: That is, number of user-ids to remain enrolled past the 14-day boundary (and thus make at least one payment) divided by the number of unique cookies to click the "Start free trial" button. (dmin= 0.0075) \newline
+\end{itemize}
+
+%------------------------------------------------
+
+\subsubsection{Invariant Metrics}
+
+There are several invariant metrics that could be used over the course of the experiment.  Each of these should not change between the experimental and control groups, and will provide a way to double-check the integrity of our design.  Those chosen for the experiment:
+
+\begin{itemize}
+	\item Number of cookies (approximation of unique pageviews)
+	\item Number of clicks
+	\item Click-through-probability
+\end{itemize}
+
+Being as the screener pops-up after clicking on the 'start free trial' button, the number of pageviews, clicks, and click-through-probability should not be affected.  Anything after the screener; number of user-id\textquotesingle s, gross conversion, retention, and net conversion could be affected.
+
+%------------------------------------------------
+
+\subsubsection{Evaluation Metrics}
+
+We expect that our evaluation metrics will change over the course of the experiment.  By comparing differences between control and experimental groups, we can measure the effect of the screener.
+
+\begin{itemize}
+	\item Gross conversion rate (could measure whether or not the screener had an effect on enrollment)
+	\item Retention rate (could measure whether or not the screener had an effect on the 14-day dropout rate)
+	\item Net conversion rate (could measure whether or not the screener had any effect on the 14-day completion rate, although not able to tell us where in this process)
+\end{itemize}
+
+User-id is excluded as an evaluation metric since it is a count, and gross conversion offers a better way to track the effect of the screener on enrollment. \newline
+
+%------------------------------------------------
+
+\subsection{Measuring Standard Deviation}
+
+Before conducting the experiment, data was collected to get daily values for cookies, enrollments, click through probability, gross conversion, retention, and net conversion on Udacity's website.  The data collected is referred to as the baseline. \newline
+
+In the experiment, we predict that we will need approximately 5,000 cookies per day in each group.  From this, a rough estimate of the expected standard deviation for each evaluation metric can be calculated.  First, to get an approximation of the number of clicks and enrollments for this daily sample of 5,000 cookies, we scale by the fraction of pageviews in the sample over the pageviews in the baseline $\frac{5000}{40000}$ = 0.125.  Therefore, we predict 400 clicks and 82.5 enrollments per day in the sample. \newline
+
+The number of clicks and enrollments follows a binomial distribution, and by the central limit theorem, the distrubution of the rates (gross conversion, retention, and net conversion) is gaussian. The standard deviation of these normally distributed rates is $\sigma = \sqrt{\frac{p(1-p)}{n}}$.  The rates for the evaluation metrics are: \newline
+
+$p_{gc}$ = 0.20625\quad
+$p_{r}$ = 0.53\quad
+$p_{nc}$ = 0.1093125
+\newline
+
+Calculation of the standard deviations yields: \newline \newline
+$\sigma_{gc}$ = 0.0202\quad
+$\sigma_{r}$ = 0.0549\quad
+$\sigma_{nc}$ = 0.0156
+\newline
+
+Post experiment, the actual number of cookies used per day is higher than our estimated value.  We are at nearly 10,000 cookies per day per group rather than 5,000.  Doubling the expected sample size for clicks and enrolls, we can make a revised analytic estimate for standard deviation.  The values that we expect to see are:
+\newline
+\newline
+$\sigma_{gc}$ = 0.0143\quad
+$\sigma_{r}$ = 0.0388\quad
+$\sigma_{nc}$ = 0.0110
+\newline
+
+%----------------------------------------------------------------------------------------
+
+\subsection{Sizing}
+
+\subsubsection{Number of Samples vs. Power}
+
+%With 3 evaluation metrics, 1 positively correlated with the other 2 (net conversion to either of the others), we should not use the Bonferroni correction in our analysis phase.
+
+To know the exact number of pageviews required for our experiment, we calculate the sample size that we will need for each evaluation metric.  Let us assume we allow a type I error rate of $\alpha$ = 0.05, and type II error $\beta$ = 0.20 for each metric.  The minimum detectable effect for each evaluation metric has been prespecified (as a business decision): \newline
+
+$d_{min}^{gc}$ = 0.01\quad
+$d_{min}^{r}$ = 0.0075\quad
+$d_{min}^{nc}$ = 0.01
+\newline
+
+Using the rates from the baseline sample along with this $\alpha$ and $\beta$, a sample size calculator
+%http://www.evanmiller.org/ab-testing/sample-size.html
+will give us the required number of samples for each evaluation metric.  Each metric has it\textquotesingle s own unit of size (clicks or enrolls), so once we arrive at the required sample size, we need to scale from the given unit to pageviews by the ratio seen in the baseline multiplying by 2 for both the control and experiment groups: \newline
+
+ratio of pageviews to clicks = 0.08 \newline
+ratio of pageviews to enrolls = 0.0165 \newline
+
+
+$n_{gc}$ = 645875\quad
+$n_{r}$ = 4741213\quad
+$n_{nc}$ = 685275
+\newline
+
+The largest sample size is our limiting factor (retention rate), so we require a total of 4,741,212 pageviews to conduct the experiment. \newline
+
+%------------------------------------------------
+
+\subsubsection{Duration vs. Exposure}
+
+%------------------------------------------------
+
+Given the required pageviews for our experiment, we can specify an exposure and calculate duration of the experiment.  Dividing total pageviews by the number of pageviews per day in the baseline (40,000), gives us a duration of 119 days were Udacity to divert it's entire traffic.  This is too long an experiment.  In order to cut down on duration, we can exclude retention rate as an evaluation metric and consider the next limiting metric, conversion rate.  With 685,275 necessary pageviews, we can specify exposure at 50\% of all traffic for the experiment.  Diverting half the traffic per day (20,000), it would then take 35 days to run the experiment which is a more reasonable duration.  Because the screener is a mild reminder about study time, it's effect on overall enrollment should be small, and a 50\% diversion should be safe.\newline
+
+To be sure of this, consider a worse case scenario in which the screener lowers retention rate by 1 standard deviation (0.0388).  With an expected 165 enrollments per day, half of which are diverted to the experiment and from this a half assigned to the experimental group, 41.25 people would be affected by the screener.  Under normal circumstances, 53\% of these would go on to make payment for a total of approximately 22 people.  Assuming the worst, the rate would drop to 49.12\% and only about 21 people would make payment per day.  This amounts to the loss of 1 person per day which confirms that a 50\% should be safe. \newline
+
+%------------------------------------------------
+
+
+\section{Experiment Analysis}
+
+\subsection{Sanity Checks}
+
+Having conducted the experiment, we can double-check our invariant metrics to see if our underlying assumptions are being met.  We expect that cookies and clicks are divided evenly between the control and experimental groups.  Using an expected rate of diversion of 0.5, we can calculate the standard deviation (using the a normal approximation to the rate as before), and construct a 95\% confidence interval around our expected value.  Comparing the observed rate, we can check if these two invariant metrics are reliable.\newline
+
+p = 0.5\quad
+$\alpha$ = 0.05\quad
+Z = 1.96
+\newline
+
+$\sigma_{cookies}$ = $\sqrt{\frac{p(1-p)}{345543 + 344660}}$ = 0.00601841
+\newline
+Margin of Error = 1.96 * 0.00601841 = 0.001179608
+\newline
+Confidence Interval = [0.4988, 0.5012]
+\newline
+Observed rate = 0.500639666
+\newline
+\newline
+$\sigma_{clicks}$ = $\sqrt{\frac{p(1-p)}{28378 + 28325}}$ = 0.002099747
+\newline
+Margin of Error = 1.96 x 0.002099747 = 0.004115504
+\newline
+Confidence Interval = [0.4959, 0.5041]
+\newline
+Observed rate = 0.500467347
+\newline
+
+Both cookies and clicks pass the sanity check.  For click-through-rate (CTR), we should observe more or less the same value across groups.  Using the observed rate in the control group, we can construct a confidence interval, but instead compare the observed rate in the experiment group.  This will test whether or not the two rates come from the same population which is what we would expect.
+\newline
+
+$CTR_{c}$ = 28378 / 345543 = 0.082125813
+
+$\sigma$ = $\sqrt{\frac{0.0821(1-0.0821)}{345543}}$ = 0.000467
+\newline
+Margin of Error = 1.96 * 0.000467 = 0.00091532
+\newline
+Confidence Interval = [0.0811, 0.0830]
+\newline
+$CTR_{x}$ = 28325 / 344660 = 0.0822
+\newline
+
+CTR passes the sanity check, and all of our invariant metrics appear to be well chosen. \newline
+
+%------------------------------------------------
+
+\subsection{Results Analysis}
+
+\subsubsection{Effect Size Tests}
+
+For each evaluation metric, we test for statistical and practical significance (whether or not the size of the effect is relevant from a business standpoint).  The minimum detectable effect is the smallest difference that we will accept between experimental and control groups in order to be practically significant.  Using the data collected, we calculate the rate in experimental and control groups for each evaluation metric (gross conversion, net conversion), and then define a new variable that is the difference between the rates (experiment - control).  Using this newly defined variable, we construct a confidence interval which will then set a range for the expected difference.  Because we are using multiple evaluation metrics to test our experimental hypothesis, we use the Bonferroni correction to determine the individual type I error for each evaluation metric: \newline
+
+$\alpha_{ind}$ = $\frac{\alpha_{total}}{n}$ = 0.025
+\newline
+$\alpha_{ind/2}$ = 0.0125 (two-sided test)
+\newline
+Z = 2.24
+\newline
+\newline
+
+\underline{Gross Conversion} \newline
+\newline
+$r_{c}$ = 0.2188746892
+\quad
+$r_{x}$ = 0.1983198146
+\quad
+$\widehat{d}$ = -0.020554874
+\newline
+
+$Var_{c}$ = $\frac{0.2188746892 * (1 - 0.2188746892)}{17293}$ = 9.88657605 * $10^{-6}$
+\newline
+$Var_{x}$ = $\frac{0.1983198146 * (1 - 0.1983198146)}{17260}$ = 9.211417482 * $10^{-6}$
+\newline
+$Var_{\widehat{d}}$ = 9.88657605 * $10^{-6}$ + 9.211417482 * $10^{-6}$ = 1.909799252 * $10^{-5}$
+\newline
+\newline
+$\sigma_{\widehat{d}}$ = 0.004370125
+\newline
+ME = 9.7888 * $10^{-3}$
+\newline
+CI = [-0.0303, -0.0108]
+\newline
+$d_{min}$ = (-)0.01
+\newline
+\newline
+
+
+\underline{Net Conversion} \newline
+\newline
+$r_{c}$ = 0.1175620193
+\quad
+$r_{x}$ = 0.1126882966
+\quad
+$\widehat{d}$ = -0.004873723
+\newline
+
+$Var_{c}$ = $\frac{0.1175620193 * (1 - 0.1175620193)}{17293}$ = 5.999027983 * $10^{-6}$
+\newline
+$Var_{x}$ = $\frac{0.1126882966 * (1 - 0.1126882966)}{17260}$ =  5.793142782 * $10^{-6}$
+\newline
+$Var_{\widehat{d}}$ = 5.999027983 * $10^{-6}$ + 5.793142782 * $10^{-6}$ = 1.179217076 * $10^{-5}$
+\newline
+\newline
+$\sigma_{\widehat{d}}$ = 3.43397029 * $10^{-3}$
+\newline
+ME = 7.692099585 * $10^{-3}$
+\newline
+CI = [-0.0126, 0.0028]
+\newline
+$d_{min}$ = (+)0.01
+\newline
+
+Gross conversion is both statistically and practically significant but net conversion is neither. \newline
+
+%------------------------------------------------
+
+\subsubsection{Sign Tests}
+
+To further test each of our evaluation metrics, we can conduct a binomial sign test.  Each day of the experiment is evaluated to see if there is a positive or negative difference across groups (experimental - control).  We count each positive difference as a success, and each negative difference as a failure.  Comparing the resulting p-values for each metric, we can determine significance.
+%Using a binomial and sign test calculator (http://graphpad.com/quickcalcs/binomial1.cfm)
+Gross conversion rate has 4 of 23 successes for a two-tailed p-value of 0.0026.  This is much smaller than our individual type I error (from the Bonferroni correction) of 0.025 indicating statistical significance of gross conversion.  Net conversion has 10 of 23 successes and a two-tailed p-value of 0.6776 indicating that net conversion is not statistically significant.
+
+%------------------------------------------------
+
+\subsubsection{Summary}
+
+The Bonferroni correction was used in the analysis phase in order to make a conservative estimate of the individual type I error rates.  Any discrepencies between the sign tests and the effect size tests would warrant further study.  In this case, the sign tests seem to agree with our effect size tests that gross conversion is significant and net conversion is not.
+
+%------------------------------------------------
+
+\subsection{Recommendation}
+
+In conclusion, we should not launch the change as although gross conversion was significant, net conversion was not.  This implies that the screener deterred people from enrolling in a free trial, however, there was no positive effect on the 14-day trial dropout rate.  Essentially, the screener was not effective at keeping out those people that would drop before the 14-day trial, and keeping those in that would proceed past it. \newline
+
+%------------------------------------------------
+
+\section{Follow-Up Experiment}
+
+A follow-up experiment could be based upon motivation and engagement.  The experiment would require a method to approximate the number of hours that each student dedicated to the material per week.  If a student committed less than the recommended number of hours in the first week, a message would pop-up upon login before the start of the second week to motivate the student to commit more time.
+%Before charging the student for the first month, a second message would pop-up if they had not dedicated the recommended amount of hours for the second week.
+Those that met the recommended number of hours wouldn't get a message.  At this point, my hypothesis is that the message would motivate some students to continue past the 14-day trial and possibly complete the course, but also cause some students to drop-out before that start of the second week.  If the first is true, we may be able to motivate students to change their habits.  If the second is true, those students that may not complete the program would then leave.  In this case, the overall student experience in the forums could improve beyond the second week, and coaching resources could be used on more dedicated students. \newline
+\newline
+Considering this design, we could include an additional evaluation metric, the \textquotesingle 7-14 day\textquotesingle \ retention rate.  Both the units of diversion and analysis would be user-id as in the retention rate.  The overall retention could allow us to evaluate if the pop-up message had any effect.  The \textquotesingle 7-14 day\textquotesingle \ retention rate would evaluate whether or not the pop-up message had an effect to motivate students to continue past the 14-day trial period.  This experiment could involve more risk for Udacity than the previous, and the amount of traffic diverted would need to be smaller than 50\%.  It would also likely take longer to conduct this kind of experiment, recalling that retention rate required significantly more time than gross or net conversion rates.
+
+\end{document}
