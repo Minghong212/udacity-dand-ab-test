@@ -80,12 +80,12 @@
 
 \section{Experiment Design}
 
-"Udacity courses currently have two options on the home page: "start free trial", and "access course materials". If the student clicks "start free trial", they will be asked to enter their credit card information, and then they will be enrolled in a free trial for the paid version of the course. After 14 days, they will automatically be charged unless they cancel first. If the student clicks "access course materials", they will be able to view the videos and take the quizzes for free, but they will not receive coaching support or a verified certificate, and they will not submit their final project for feedback.
+Udacity courses currently have two options on the home page: "start free trial", and "access course materials". If the student clicks "start free trial", they will be asked to enter their credit card information, and then they will be enrolled in a free trial for the paid version of the course. After 14 days, they will automatically be charged unless they cancel first. If the student clicks "access course materials", they will be able to view the videos and take the quizzes for free, but they will not receive coaching support or a verified certificate, and they will not submit their final project for feedback.
 \newline \newline
 In the experiment, Udacity tested a change where if the student clicked "start free trial", they were asked how much time they had available to devote to the course. If the student indicated 5 or more hours per week, they would be taken through the checkout process as usual. If they indicated fewer than 5 hours per week, a message would appear indicating that Udacity courses usually require a greater time commitment for successful completion, and suggesting that the student might like to access the course materials for free. At this point, the student would have the option to continue enrolling in the free trial, or access the course materials for free instead.
 \newline \newline
-The hypothesis was that this might set clearer expectations for students upfront, thus reducing the number of frustrated students who left the free trial because they didn't have enough time—without significantly reducing the number of students to continue past the free trial and eventually complete the course. If this hypothesis held true, Udacity could improve the overall student experience and improve coaches' capacity to support students who are likely to complete the course.
-The unit of diversion is a cookie, although if the student enrolls in the free trial, they are tracked by user-id from that point forward. The same user-id cannot enroll in the free trial twice. For users that do not enroll, their user-id is not tracked in the experiment, even if they were signed in when they visited the course overview page."
+The hypothesis was that this might set clearer expectations for students upfront, thus reducing the number of frustrated students who left the free trial because they didn't have enough time \textemdash \ without significantly reducing the number of students to continue past the free trial and eventually complete the course. If this hypothesis held true, Udacity could improve the overall student experience and improve coaches' capacity to support students who are likely to complete the course.
+The unit of diversion is a cookie, although if the student enrolls in the free trial, they are tracked by user-id from that point forward. The same user-id cannot enroll in the free trial twice. For users that do not enroll, their user-id is not tracked in the experiment, even if they were signed in when they visited the course overview page. \newline
 
 %------------------------------------------------
 
@@ -105,7 +105,7 @@ The unit of diversion is a cookie, although if the student enrolls in the free t
 
 \subsubsection{Invariant Metrics}
 
-There are several invariant metrics that could be used over the course of the experiment.  Each of these should not change between the experimental and control groups, and will provide a way to double-check the integrity of our design.  Those chosen for the experiment:
+There are several invariant metrics that could be used over the course of the experiment.  In order to be fit, they should not change between the experimental and control groups.  After conducting the experiment, they will provide a way to double-check the integrity of our design.  Because the screener pops-up after clicking on the 'start free trial' button, the number of pageviews, clicks, and click-through-probability should remain the same across groups.  Anything after the screener; number of user-id\textquotesingle s, gross conversion, retention, and net conversion could be affected.  The invariant metrics chosen for the experiment are:
 
 \begin{itemize}
 	\item Number of cookies (approximation of unique pageviews)
@@ -113,13 +113,11 @@ There are several invariant metrics that could be used over the course of the ex
 	\item Click-through-probability
 \end{itemize}
 
-Being as the screener pops-up after clicking on the 'start free trial' button, the number of pageviews, clicks, and click-through-probability should not be affected.  Anything after the screener; number of user-id\textquotesingle s, gross conversion, retention, and net conversion could be affected.
-
 %------------------------------------------------
 
 \subsubsection{Evaluation Metrics}
 
-We expect that our evaluation metrics will change over the course of the experiment.  By comparing differences between control and experimental groups, we can measure the effect of the screener.
+We expect that our evaluation metrics will change over the course of the experiment.  By comparing differences between the control and experimental groups, we can measure the effect of the screener.  Of the remaining metrics not considered to be invariant, user-id is excluded from the list of potential evaluation metrics.  This is because user-id alone is a count, and gross conversion incorporates user-id while also offering a better way to track the effect of the screener during the experiment.  The evaluation metrics to be used: 
 
 \begin{itemize}
 	\item Gross conversion rate (could measure whether or not the screener had an effect on enrollment)
@@ -127,7 +125,7 @@ We expect that our evaluation metrics will change over the course of the experim
 	\item Net conversion rate (could measure whether or not the screener had any effect on the 14-day completion rate, although not able to tell us where in this process)
 \end{itemize}
 
-User-id is excluded as an evaluation metric since it is a count, and gross conversion offers a better way to track the effect of the screener on enrollment. \newline
+If our hypothesis is correct, we would expect to see a higher retention rate for the experimental group.  Conversely, gross conversion would be lower as those students likely to drop during the 14-day trial would be filtered by the screener.  Net conversion may not change at all even if the screener is effective.  To illustrate this, let's assume that 100 people clicked the 'start-free-trial' button in both the control and experimental group.  In the control group, 10 people decided not to enroll, and 20 more dropped-out before the end of the trial period.  In the experimental group, 25 people decided not to enroll after seeing the screener, and only 5 dropped-out before the end of the trial period.  Although the screener was effective in filtering out potential drop-outs, net conversion across groups would be the same.  Despite this possibiity, if the number of cookies is larger for the experimental group, it is possible that net conversion is higher.  An increase would indicate that the screener had some effect to increase commitment past the 14-day trial.  Because net conversion may not recognize an effect, it's reliability as an evaluation metric is questionable. \newline
 
 %------------------------------------------------
 
@@ -144,19 +142,21 @@ $p_{r}$ = 0.53\quad
 $p_{nc}$ = 0.1093125
 \newline
 
-Calculation of the standard deviations yields: \newline \newline
+and calculation of the standard deviations yields: \newline \newline
 $\sigma_{gc}$ = 0.0202\quad
 $\sigma_{r}$ = 0.0549\quad
 $\sigma_{nc}$ = 0.0156
 \newline
 
-Post experiment, the actual number of cookies used per day is higher than our estimated value.  We are at nearly 10,000 cookies per day per group rather than 5,000.  Doubling the expected sample size for clicks and enrolls, we can make a revised analytic estimate for standard deviation.  The values that we expect to see are:
+Post experiment, the actual number of cookies used per day was higher than our estimated value.  There were nearly 10,000 cookies per day per group rather than 5,000.  Doubling the expected sample size for clicks and enrolls, we can make a revised analytic estimate for standard deviation.  The values that we expect to see are:
 \newline
 \newline
 $\sigma_{gc}$ = 0.0143\quad
 $\sigma_{r}$ = 0.0388\quad
 $\sigma_{nc}$ = 0.0110
 \newline
+
+Of the 3 evaluation metrics, only the analytically calculated standard deviation of retention is likely to match the empirical standard deviation seen in the experiment.  This is due to the fact that the units of diversion and analysis are the same.  Although gross conversion and net conversion also have user-id as the unit of diversion, they have cookies as the unit of analysis.  This implies that our analytically calculated standard deviation could vary from the empirical standard deviation for these two metrics. \newline
 
 %----------------------------------------------------------------------------------------
 
@@ -175,7 +175,7 @@ $d_{min}^{nc}$ = 0.01
 
 Using the rates from the baseline sample along with this $\alpha$ and $\beta$, a sample size calculator
 %http://www.evanmiller.org/ab-testing/sample-size.html
-will give us the required number of samples for each evaluation metric.  Each metric has it\textquotesingle s own unit of size (clicks or enrolls), so once we arrive at the required sample size, we need to scale from the given unit to pageviews by the ratio seen in the baseline multiplying by 2 for both the control and experiment groups: \newline
+will give us the required number of samples for each evaluation metric.  Each metric has it\textquotesingle s own unit of size (clicks or enrolls), so once we arrive at the required sample size, we need to scale from the given unit to pageviews by the ratio seen in the baseline.  Finally we need to account for both groups in the experiment. \newline
 
 ratio of pageviews to clicks = 0.08 \newline
 ratio of pageviews to enrolls = 0.0165 \newline
@@ -194,9 +194,13 @@ The largest sample size is our limiting factor (retention rate), so we require a
 
 %------------------------------------------------
 
-Given the required pageviews for our experiment, we can specify an exposure and calculate duration of the experiment.  Dividing total pageviews by the number of pageviews per day in the baseline (40,000), gives us a duration of 119 days were Udacity to divert it's entire traffic.  This is too long an experiment.  In order to cut down on duration, we can exclude retention rate as an evaluation metric and consider the next limiting metric, conversion rate.  With 685,275 necessary pageviews, we can specify exposure at 50\% of all traffic for the experiment.  Diverting half the traffic per day (20,000), it would then take 35 days to run the experiment which is a more reasonable duration.  Because the screener is a mild reminder about study time, it's effect on overall enrollment should be small, and a 50\% diversion should be safe.\newline
+Given the required pageviews for our experiment, we can specify an exposure and calculate duration of the experiment.  Dividing total pageviews by the number of pageviews per day in the baseline (40,000), gives us a duration of 119 days were Udacity to divert it's entire traffic.  This is too long an experiment.  In order to cut down on duration, we can exclude retention rate as an evaluation metric and consider the next limiting metric, conversion rate.  With 685,275 necessary pageviews, we can specify exposure at 50\% of traffic.  Diverting half the traffic per day (20,000), it would then take 35 days to run the experiment which is a reasonable duration.  Because the screener is a mild reminder about study time, it constitutes minimal risk.  There is no possibility that any of the participants suffer physical harm as a result of the experiment, nor is sensitive data being collected, therefore a 50\% exposure is a safe. \newline
 
-To be sure of this, consider a worse case scenario in which the screener lowers retention rate by 1 standard deviation (0.0388).  With an expected 165 enrollments per day, half of which are diverted to the experiment and from this a half assigned to the experimental group, 41.25 people would be affected by the screener.  Under normal circumstances, 53\% of these would go on to make payment for a total of approximately 22 people.  Assuming the worst, the rate would drop to 49.12\% and only about 21 people would make payment per day.  This amounts to the loss of 1 person per day which confirms that a 50\% should be safe. \newline
+%To be sure of this, consider a worse case scenario in which the screener lowers retention rate by 1 standard deviation (0.0388).
+%With an expected 165 enrollments per day, half of which are diverted to the experiment and from this a half assigned to the experimental group, 41.25 people would be affected by the screener.
+%Under normal circumstances, 53\% of these would go on to make payment for a total of approximately 22 people.
+%Assuming the worst, the rate would drop to 49.12\% and only about 21 people would make payment per day.
+%This amounts to the loss of 1 person per day which confirms that a 50\% should be safe. \newline
 
 %------------------------------------------------
 
@@ -230,7 +234,7 @@ Confidence Interval = [0.4959, 0.5041]
 Observed rate = 0.500467347
 \newline
 
-Both cookies and clicks pass the sanity check.  For click-through-rate (CTR), we should observe more or less the same value across groups.  Using the observed rate in the control group, we can construct a confidence interval, but instead compare the observed rate in the experiment group.  This will test whether or not the two rates come from the same population which is what we would expect.
+Both cookies and clicks pass the sanity check.  For click-through-rate (CTR), we should observe more or less the same value across groups.  Using the observed rate in the control group, we can construct a confidence interval, but instead compare the observed rate in the experimental group.  This will test whether or not the two rates come from the same population which is what we would expect.
 \newline
 
 $CTR_{c}$ = 28378 / 345543 = 0.082125813
@@ -328,22 +332,24 @@ Gross conversion rate has 4 of 23 successes for a two-tailed p-value of 0.0026. 
 
 \subsubsection{Summary}
 
-The Bonferroni correction was used in the analysis phase in order to make a conservative estimate of the individual type I error rates.  Any discrepencies between the sign tests and the effect size tests would warrant further study.  In this case, the sign tests seem to agree with our effect size tests that gross conversion is significant and net conversion is not.
+The effect size tests determine that gross conversion is significant and net conversion is not.  The gross conversion rate dropped in the experimental group by approximately 2\% and thus the screener proved to be effective at reducing the number of students that enroll from click.  This aligns with our hypothesis if the screener is in fact effective.  Net conversion, however, was reduced by approximately 0.5\% indicating that the screener did not increase the retention of students beyond the free trial period from click.  This is the opposite effect that we would expect from our hypothesis.  Even if the change was positive, it is too small to be practically significant for a launch. \newline \newline
+It would have been helpful in the experiment to include retention rate during the effect size analysis.  This metric could indicate whether or not those students that enrolled after seeing the screener were more likely to finish the 14-day trial.  Including this metric caused the duration of the experiment to go beyond a reasonable limit and it could not be used. \newline \newline
+The Bonferroni correction was used in the analysis phase in order to make a conservative estimate of the individual type I error rates.  A conservative estimate is needed as we base our launch decision upon the practical significance of all metrics.  In other words, all metrics need to be significant in order to launch the change, and because we are using multiple metrics, the possibility of a type I error increases.  Thus by minimizing the individiual type I errors of each metric using the Bonferroni correction, we can arrive at an overall type I error that is acceptable. \newline \newline
+The sign tests allow for an additional form of analysis.  The conclusion from the sign test mirrors that of the effect size test, that gross conversion is significant but net conversion is not.  Had we any discrepencies with regard to the signifance of the evaluation metrics between the sign and effect size tests, further study would be warranted.  In this case, both tests agree and our conclusions with regard to both metrics strongly supported.
 
 %------------------------------------------------
 
 \subsection{Recommendation}
 
-In conclusion, we should not launch the change as although gross conversion was significant, net conversion was not.  This implies that the screener deterred people from enrolling in a free trial, however, there was no positive effect on the 14-day trial dropout rate.  Essentially, the screener was not effective at keeping out those people that would drop before the 14-day trial, and keeping those in that would proceed past it. \newline
+The screener proved to be effective at reducing the number of people to continue from click to enroll, but it was not effective at filtering out those students that would later drop during the 14-day trial. To the contrary, the screener appeared to increase the rate at which people left the 14-day trial.  This appearance is not entirely surprising as net conversion is correlated with gross conversion.  Most importantly, because of our exclusion of retention rate, we did not have an accurate way to measure whether or not people who enrolled after seeing the screener were more likely to continue past the 14-day trial.  Based upon this evidence and reasoning, we should not launch the change to Udacity's website. \newline
 
 %------------------------------------------------
 
 \section{Follow-Up Experiment}
 
-A follow-up experiment could be based upon motivation and engagement.  The experiment would require a method to approximate the number of hours that each student dedicated to the material per week.  If a student committed less than the recommended number of hours in the first week, a message would pop-up upon login before the start of the second week to motivate the student to commit more time.
-%Before charging the student for the first month, a second message would pop-up if they had not dedicated the recommended amount of hours for the second week.
-Those that met the recommended number of hours wouldn't get a message.  At this point, my hypothesis is that the message would motivate some students to continue past the 14-day trial and possibly complete the course, but also cause some students to drop-out before that start of the second week.  If the first is true, we may be able to motivate students to change their habits.  If the second is true, those students that may not complete the program would then leave.  In this case, the overall student experience in the forums could improve beyond the second week, and coaching resources could be used on more dedicated students. \newline
+A follow-up experiment could be based upon motivation and engagement.  The experiment would require a method to approximate the number of hours that each student dedicated to the material per week.  If a student committed less than the recommended number of hours in the first week, a message would pop-up upon login before the start of the second week to motivate the student to commit more time.  Those that met the recommended number of hours wouldn't get a message. \newline \newline
+My hypothesis is that the message would motivate some students to continue past the 14-day trial and possibly complete the course, but also cause some students to drop-out before that start of the second week.  If the first is true, we may be able to motivate students to change their habits.  If the second is true, those students that may not complete the program would then leave.  In this case, the overall student experience in the forums could improve beyond the second week, and coaching resources could be used on more dedicated students. \newline
 \newline
-Considering this design, we could include an additional evaluation metric, the \textquotesingle 7-14 day\textquotesingle \ retention rate.  Both the units of diversion and analysis would be user-id as in the retention rate.  The overall retention could allow us to evaluate if the pop-up message had any effect.  The \textquotesingle 7-14 day\textquotesingle \ retention rate would evaluate whether or not the pop-up message had an effect to motivate students to continue past the 14-day trial period.  This experiment could involve more risk for Udacity than the previous, and the amount of traffic diverted would need to be smaller than 50\%.  It would also likely take longer to conduct this kind of experiment, recalling that retention rate required significantly more time than gross or net conversion rates.
+Considering this design, we could include an additional evaluation metric, the \textquotesingle 7-14 day\textquotesingle \ retention rate.  Both the units of diversion and analysis would be user-id as in retention rate.  The overall retention could allow us to evaluate if the pop-up message had any effect.  The \textquotesingle 7-14 day\textquotesingle \ retention rate would evaluate whether or not the pop-up message had an effect to motivate students to continue past the 14-day trial period.  Suitable invariant metrics for this experiment would be number of cookies, clicks on start-free-trial, user-id, and click through probability.  This experiment would likely take longer to conduct, recalling that the inclusion of retention rate required significantly more time than gross or net conversion.
 
 \end{document}
