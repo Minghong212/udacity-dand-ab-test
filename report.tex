@@ -137,9 +137,17 @@ If the hypothesis is correct, we would expect to see specific changes in the eva
 
 Before conducting the experiment, data was collected to get daily values for cookies, enrollments, click through probability, gross conversion, retention, and net conversion on Udacity's website.  The data collected is referred to as the baseline. \newline
 
-In the experiment, we predict that we will need approximately 5,000 cookies per day in each group.  From this, a rough estimate of the expected standard deviation for each evaluation metric can be calculated.  First, to get an approximation of the number of clicks and enrollments for this daily sample of 5,000 cookies, we scale by the fraction of pageviews in the sample over the pageviews in the baseline $\frac{5,000}{40,000}$ = 0.125.  Therefore, from 3,200 clicks and 660 enrollments in the baseline, we predict 400 clicks and 82.5 enrollments per day in the sample. \newline
+In the experiment, we predict that we will need approximately 5,000 cookies per day in each group.  From this, a rough estimate of the expected standard deviation for each evaluation metric can be calculated.  First, to get an approximation of the number of clicks and enrollments for this daily sample of 5,000 cookies, we scale by the fraction of pageviews in the sample over the pageviews in the baseline: \newline
 
-The number of clicks and enrollments follows a binomial distribution, and by the central limit theorem, the distrubution of the rates (gross conversion, retention, and net conversion) is gaussian. The standard deviation of these normally distributed rates is $\sigma = \sqrt{\frac{p(1-p)}{n}}$.  The rates for the evaluation metrics are: \newline
+$\frac{5,000}{40,000}$ = 0.125 \newline
+
+Therefore, from 3,200 clicks and 660 enrollments in the baseline, we predict 400 clicks and 82.5 enrollments per day in the sample. \newline
+
+The number of clicks and enrollments follows a binomial distribution, and by the central limit theorem, the distrubution of the rates (gross conversion, retention, and net conversion) is gaussian. The standard deviation of these normally distributed rates is: \newline
+
+$\sigma = \sqrt{\frac{p(1-p)}{n}}$ \newline
+
+The rates for the evaluation metrics are: \newline
 
 $p_{gc}$ = 0.20625\newline
 $p_{r}$ = 0.53\newline
@@ -149,7 +157,9 @@ $p_{nc}$ = 0.1093125
 and calculation of the standard deviations yields: \newline
 
 $\sigma_{gc}$ = $\sqrt{\frac{ 0.20625 (1 -  0.20625)}{400}}$ = 0.0202 \newline
+
 $\sigma_{r}$ = $\sqrt{\frac{ 0.535 (1 -  0.53)}{82.5}}$ = 0.0549 \newline
+
 $\sigma_{nc}$ = $\sqrt{\frac{ 0.1093125 (1 -  0.1093125)}{400}}$ = 0.0156
 \newline
 
@@ -174,8 +184,8 @@ Of the 3 evaluation metrics, the analytically calculated standard deviation of r
 To know the exact number of pageviews required for our experiment, we calculate the sample size that we will need for each evaluation metric.  We allow a type I error rate of $\alpha$ = 0.05, and type II error $\beta$ = 0.20.  The minimum detectable effect for each evaluation metric has been prespecified (as a business decision): \newline
 
 $d_{min}^{gc}$ = 0.01\quad
-$d_{min}^{r}$ = 0.0075\quad
-$d_{min}^{nc}$ = 0.01
+$d_{min}^{r}$ = 0.01\quad
+$d_{min}^{nc}$ = 0.0075
 \newline
 
 Using the rates from the baseline sample along with this $\alpha$ and $\beta$, a sample size calculator
@@ -185,12 +195,14 @@ will give us the required number of samples for each evaluation metric.  Each me
 ratio of pageviews to clicks = 0.08 \newline
 ratio of pageviews to enrolls = 0.0165 \newline
 
-$n_{gc}$ = 645,875\quad
-$n_{r}$ = 4,741,213\quad
-$n_{nc}$ = 685,275
+$n_{gc}$ = $\frac{25,835}{0.08}$ * 2 = 645,875 \newline
+
+$n_{r}$ = $\frac{39,115}{0.0165}$ * 2 = 4,741,213 \newline
+
+$n_{nc}$ = $\frac{27,413}{0.08}$ * 2 = 685,325
 \newline
 
-The largest sample size is our limiting factor (retention rate), so we require a total of 4,741,212 pageviews to conduct the experiment. \newline
+The largest sample size is our limiting factor (retention rate), so we require a total of 4,741,213 pageviews to conduct the experiment. \newline
 
 %------------------------------------------------
 
@@ -222,20 +234,19 @@ $\alpha$ = 0.05 \newline
 Z = 1.96
 \newline
 
-$\sigma_{cookies}$ = $\sqrt{\frac{0.5 (1 - 0.5)}{345543 + 344660}}$ = 0.00601841
+$\sigma_{cookies}$ = $\sqrt{\frac{0.5 (1 - 0.5)}{345543 + 344660}}$ = 0.00601841 \newline
+ME = 1.96 * 0.00601841 = 0.001179608
 \newline
-Margin of Error = 1.96 * 0.00601841 = 0.001179608
-\newline
-Confidence Interval = [0.4988, 0.5012]
+CI = [0.4988, 0.5012]
 \newline
 Observed rate = 0.500639666
 \newline
 \newline
 $\sigma_{clicks}$ = $\sqrt{\frac{0.5 (1 - 0.5)}{28378 + 28325}}$ = 0.002099747
 \newline
-Margin of Error = 1.96 x 0.002099747 = 0.004115504
+ME = 1.96 * 0.002099747 = 0.004115504
 \newline
-Confidence Interval = [0.4959, 0.5041]
+CI = [0.4959, 0.5041]
 \newline
 Observed rate = 0.500467347
 \newline
@@ -247,9 +258,9 @@ $CTR_{c}$ = 28378 / 345543 = 0.082125813
 
 $\sigma$ = $\sqrt{\frac{0.0821(1-0.0821)}{345543}}$ = 0.000467
 \newline
-Margin of Error = 1.96 * 0.000467 = 0.00091532
+ME = 1.96 * 0.000467 = 0.00091532
 \newline
-Confidence Interval = [0.0811, 0.0830]
+CI = [0.0811, 0.0830]
 \newline
 $CTR_{x}$ = 28325 / 344660 = 0.0822
 \newline
